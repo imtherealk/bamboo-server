@@ -1,16 +1,15 @@
+from rest_framework import serializers, viewsets
+from rest_framework.decorators import detail_route
 
-def write(request):
-    pass
-
-
-def read(request, report_id):
-    pass
+from api.models import Report
 
 
-def delete(request, report_id):
-    pass
+class ReportSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Report
+        fields = ('id', 'content', 'message', 'created_at', 'bamboo')
 
 
-def report_list(request, bamboo_id):
-    pass
-
+class ReportViewSet(viewsets.ModelViewSet):
+    queryset = Report.objects.all()
+    serializer_class = ReportSerializer
