@@ -1,21 +1,15 @@
-from django.shortcuts import render
+from rest_framework import serializers, viewsets
+from rest_framework.decorators import detail_route
+
+from api.models import Bamboo
 
 
-def create(request):
-    pass
+class BambooSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Bamboo
+        fields = ('id', 'name', 'created_at', 'notice')
 
 
-def read(request, bamboo_id):
-    pass
-
-
-def update(request, bamboo_id):
-    pass
-
-
-def delete(request, bamboo_id):
-    pass
-
-
-def bamboo_list(request):
-    pass
+class BambooViewSet(viewsets.ModelViewSet):
+    queryset = Bamboo.objects.all()
+    serializer_class = BambooSerializer
