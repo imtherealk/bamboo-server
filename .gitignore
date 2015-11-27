@@ -1,4 +1,6 @@
-# Created by https://www.gitignore.io/api/windows,osx,linux,python,django,pycharm
+### Project ###
+db.sqlite3
+
 
 ### Windows ###
 # Windows image file caches
