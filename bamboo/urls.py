@@ -3,6 +3,7 @@ from django.contrib import admin
 from rest_framework import routers
 from api.views.bamboo import BambooViewSet
 from api.views.comment import CommentViewSet
+from api.views.post import PostViewSet
 from api.views.user import UserViewSet
 
 router = routers.DefaultRouter()
@@ -11,6 +12,7 @@ router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)
 router.register(r'bamboo', BambooViewSet)
 router.register(r'comment', CommentViewSet)
+router.register(r'post', PostViewSet)
 
 
 urlpatterns = patterns(

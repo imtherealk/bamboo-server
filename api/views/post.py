@@ -1,16 +1,15 @@
+from rest_framework import serializers, viewsets
+from rest_framework.decorators import detail_route
+
+from api.models import Post
 
 
-def upload(request, report_id):
-    pass
+class PostSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('id', 'post_number', 'created_at', 'admin')
 
 
-def read(request, post_id):
-    pass
-
-
-def delete(request, post_id):
-    pass
-
-
-def post_list(request, bamboo_id):
-    pass
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
