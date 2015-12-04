@@ -1,9 +1,9 @@
 from django.contrib import admin
-from api.models import Bamboo, Comment, Post, Report, User, BambooAdmin
+from api import models
 
-admin.site.register(Bamboo)
-admin.site.register(Comment)
-admin.site.register(Post)
-admin.site.register(Report)
-admin.site.register(User)
-admin.site.register(BambooAdmin)
+admin.site.register(models.Bamboo)
+admin.site.register(models.Comment)
+admin.site.register(models.Post)
+admin.site.register(models.Report)
+admin.site.register(models.User)
+admin.site.register(models.BambooAdmin)
