@@ -12,6 +12,7 @@ router = routers.DefaultRouter()
 # Register API URLs
 router.register(r'user', UserViewSet)
 router.register(r'bamboo', BambooViewSet)
+router.register(r'bamboo/(?P<bamboo_pk>.+)/manager', BambooViewSet)
 router.register(r'comment', CommentViewSet)
 router.register(r'post', PostViewSet)
 router.register(r'report', ReportViewSet)
