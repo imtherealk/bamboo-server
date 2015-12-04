@@ -21,7 +21,7 @@ class User(AbstractUser):
 class Bamboo(Model, CreatedAtMixin):
     name = models.CharField(max_length=20)
     notice = models.TextField(null=True, blank=True)
-    admins = models.ManyToManyField(User, through='BambooAdmin')
+    managers = models.ManyToManyField(User, through='BambooManager')
 
 
 class Report(Model, CreatedAtMixin):
@@ -33,7 +33,7 @@ class Report(Model, CreatedAtMixin):
 
 class Post(Model, CreatedAtMixin):
     post_number = models.IntegerField()
-    admin = models.ForeignKey(User)
+    confirmed_by = models.ForeignKey(User)
     report = models.ForeignKey(Report)
 
 
@@ -43,6 +43,6 @@ class Comment(Model, CreatedAtMixin):
     post = models.ForeignKey(Post)
 
 
-class BambooAdmin(Model, CreatedAtMixin):
-    admin = models.ForeignKey(User)
+class BambooManager(Model, CreatedAtMixin):
+    manager = models.ForeignKey(User)
     bamboo = models.ForeignKey(Bamboo)

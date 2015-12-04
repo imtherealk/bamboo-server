@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework import routers
-from api.views.admin import BambooAdminViewSet
 from api.views.bamboo import BambooViewSet
 from api.views.comment import CommentViewSet
 from api.views.post import PostViewSet

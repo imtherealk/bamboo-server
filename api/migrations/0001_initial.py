@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django.utils.timezone
-import django.core.validators
 from django.conf import settings
+import django.utils.timezone
 import api.models
+import django.core.validators
 
 
 class Migration(migrations.Migration):
@@ -18,19 +18,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(verbose_name='last login', default=django.utils.timezone.now)),
-                ('is_superuser', models.BooleanField(help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status', default=False)),
-                ('username', models.CharField(help_text='Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=30, validators=[django.core.validators.RegexValidator('^[\\w.@+-]+$', 'Enter a valid username.', 'invalid')], verbose_name='username', unique=True)),
+                ('is_superuser', models.BooleanField(help_text='Designates that this user has all permissions without explicitly assigning them.', default=False, verbose_name='superuser status')),
+                ('username', models.CharField(help_text='Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.', validators=[django.core.validators.RegexValidator('^[\\w.@+-]+$', 'Enter a valid username.', 'invalid')], max_length=30, verbose_name='username', unique=True)),
                 ('first_name', models.CharField(max_length=30, verbose_name='first name', blank=True)),
                 ('last_name', models.CharField(max_length=30, verbose_name='last name', blank=True)),
                 ('email', models.EmailField(max_length=75, verbose_name='email address', blank=True)),
-                ('is_staff', models.BooleanField(help_text='Designates whether the user can log into this admin site.', verbose_name='staff status', default=False)),
-                ('is_active', models.BooleanField(help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active', default=True)),
+                ('is_staff', models.BooleanField(help_text='Designates whether the user can log into this admin site.', default=False, verbose_name='staff status')),
+                ('is_active', models.BooleanField(help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', default=True, verbose_name='active')),
                 ('date_joined', models.DateTimeField(verbose_name='date joined', default=django.utils.timezone.now)),
-                ('groups', models.ManyToManyField(to='auth.Group', related_query_name='user', verbose_name='groups', blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of his/her group.', related_name='user_set')),
-                ('user_permissions', models.ManyToManyField(to='auth.Permission', related_query_name='user', verbose_name='user permissions', blank=True, help_text='Specific permissions for this user.', related_name='user_set')),
+                ('groups', models.ManyToManyField(related_query_name='user', to='auth.Group', blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of his/her group.', verbose_name='groups', related_name='user_set')),
+                ('user_permissions', models.ManyToManyField(related_query_name='user', to='auth.Permission', blank=True, help_text='Specific permissions for this user.', verbose_name='user permissions', related_name='user_set')),
             ],
             options={
                 'abstract': False,
@@ -42,9 +42,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Bamboo',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('name', models.CharField(max_length=20)),
-                ('notice', models.TextField(null=True, blank=True)),
+                ('notice', models.TextField(blank=True, null=True)),
             ],
             options={
                 'abstract': False,
@@ -52,11 +52,11 @@ class Migration(migrations.Migration):
             bases=(models.Model, api.models.CreatedAtMixin),
         ),
         migrations.CreateModel(
-            name='BambooAdmin',
+            name='BambooManager',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
-                ('admin', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('bamboo', models.ForeignKey(to='api.Bamboo')),
+                ('manager', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Comment',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('content', models.TextField()),
             ],
             options={
@@ -77,9 +77,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Post',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('post_number', models.IntegerField()),
-                ('admin', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('confirmed_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -89,9 +89,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Report',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('content', models.TextField()),
-                ('message', models.TextField(null=True, blank=True)),
+                ('message', models.TextField(blank=True, null=True)),
                 ('bamboo', models.ForeignKey(to='api.Bamboo')),
                 ('writer', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
@@ -120,8 +120,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='bamboo',
-            name='admins',
-            field=models.ManyToManyField(through='api.BambooAdmin', to=settings.AUTH_USER_MODEL),
+            name='managers',
+            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, through='api.BambooManager'),
             preserve_default=True,
         ),
     ]
