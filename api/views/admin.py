@@ -1,11 +1,15 @@
+from rest_framework import serializers, viewsets
+from rest_framework.decorators import detail_route
 
-def create(request, bamboo_id):
-    pass
-
-
-def read(request, bamboo_id):
-    pass
+from api.models import BambooAdmin
 
 
-def delete(request, bamboo_id, user_id):
-    pass
+class BambooAdminSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = BambooAdmin
+        fields = ('id', 'admin', 'bamboo', 'created_at')
+
+
+class BambooAdminViewSet(viewsets.ModelViewSet):
+    queryset = BambooAdmin.objects.all()
+    serializer_class = BambooAdminSerializer
