@@ -10,6 +10,10 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'content', 'created_at', 'post')
 
 
-class CommentViewSet(viewsets.ModelViewSet):
+class CommentViewSet(viewsets.mixins.CreateModelMixin,
+                     viewsets.mixins.RetrieveModelMixin,
+                     viewsets.mixins.DestroyModelMixin,
+                     viewsets.mixins.ListModelMixin,
+                     viewsets.GenericViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
