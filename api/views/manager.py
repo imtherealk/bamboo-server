@@ -17,5 +17,5 @@ class BambooAdminViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         bamboo_pk = self.kwargs['bamboo_pk']
         bamboo = get_object_or_404(Bamboo.objects.filter(id=bamboo_pk))
-        queryset = self.queryset.filter(bamboo__pk=bamboo.id)
+        queryset = self.queryset.filter(bamboo=bamboo)
         return queryset
