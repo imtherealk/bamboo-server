@@ -10,6 +10,10 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'post_number', 'created_at', 'admin')
 
 
-class PostViewSet(viewsets.ModelViewSet):
+class PostViewSet(viewsets.mixins.CreateModelMixin,
+                  viewsets.mixins.RetrieveModelMixin,
+                  viewsets.mixins.DestroyModelMixin,
+                  viewsets.mixins.ListModelMixin,
+                  viewsets.GenericViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
