@@ -25,16 +25,16 @@ urlpatterns = patterns(
     url(r'^bamboo/(?P<bamboo_pk>.+)/post/', PostViewSet.as_view({
         'get': 'list',
     })),
-    url(r'^post/(?P<post_pk>.+)/', PostViewSet.as_view({
+    url(r'^post/(?P<pk>.+)/', PostViewSet.as_view({
         'get': 'retrieve',
         'delete': 'destroy',
     })),
     # Report CRUD URLs
-    url(r'bamboo/(?P<bamboo_pk>.+)/report/', ReportViewSet.as_view({
+    url(r'^bamboo/(?P<bamboo_pk>.+)/report/', ReportViewSet.as_view({
         'post': 'create',
         'get': 'list',
     })),
-    url(r'report/(?P<report_pk>.+)', ReportViewSet.as_view({
+    url(r'^report/(?P<pk>.+)/', ReportViewSet.as_view({
         'get': 'retrieve',
         'delete': 'destroy',
     })),
@@ -43,7 +43,7 @@ urlpatterns = patterns(
         'post': 'create',
         'get': 'list',
     })),
-    url(r'comment/(?P<pk>.+)', CommentViewSet.as_view({
+    url(r'^comment/(?P<pk>.+)', CommentViewSet.as_view({
         'get': 'retrieve',
         'delete': 'destroy',
     })),
