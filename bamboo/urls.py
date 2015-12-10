@@ -19,11 +19,9 @@ router.register(r'bamboo/(?P<bamboo_pk>.+)/manager', BambooAdminViewSet)
 urlpatterns = patterns(
     '',
     # Post CRUD URLs
-    url(r'^report/(?P<report_pk>.+)/post/', PostViewSet.as_view({
-        'post': 'create',
-    })),
     url(r'^bamboo/(?P<bamboo_pk>.+)/post/', PostViewSet.as_view({
         'get': 'list',
+        'post': 'create',
     })),
     url(r'^post/(?P<pk>.+)/', PostViewSet.as_view({
         'get': 'retrieve',
