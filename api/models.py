@@ -2,8 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-class CreatedAtMixin(object):
+class CreatedAtMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta(object):
+        abstract = True
 
 
 class Model(models.Model):
