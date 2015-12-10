@@ -33,8 +33,10 @@ class Report(Model, CreatedAtMixin):
 
 class Post(Model, CreatedAtMixin):
     post_number = models.IntegerField()
-    confirmed_by = models.ForeignKey(User)
-    report = models.ForeignKey(Report)
+    content = models.TextField()
+    bamboo = models.ForeignKey(Bamboo)
+    writer = models.ForeignKey(User)
+    confirmed_by = models.ForeignKey(User, related_name='confirmed_posts')
 
 
 class Comment(Model, CreatedAtMixin):
