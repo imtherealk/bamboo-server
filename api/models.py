@@ -25,6 +25,7 @@ class Bamboo(Model, CreatedAtMixin):
     name = models.CharField(max_length=20)
     notice = models.TextField(null=True, blank=True)
     managers = models.ManyToManyField(User, through='BambooManager')
+    next_post_number = models.IntegerField(default=1, null=False)
 
 
 class Report(Model, CreatedAtMixin):
