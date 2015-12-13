@@ -1,5 +1,6 @@
 from django.db import transaction
 from django.forms import forms, fields
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
@@ -28,10 +29,8 @@ class PostCreateForm(forms.Form):
         return report
 
 
-class PostViewSet(viewsets.mixins.RetrieveModelMixin,
-                  viewsets.mixins.DestroyModelMixin,
-                  viewsets.mixins.ListModelMixin,
-                  viewsets.GenericViewSet):
+class PostViewSet(viewsets.GenericViewSet,
+                  viewsets.mixins.ListModelMixin):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -62,3 +61,21 @@ class PostViewSet(viewsets.mixins.RetrieveModelMixin,
             serializer = self.get_serializer(post)
             return Response(serializer.data, 201)
         return Response(form.errors, 400)
+
+    def retrieve(self, request, bamboo_pk, post_number):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(post_number=post_number)
+        post = queryset.first()
+        if post is None:
+            raise Http404()
+        serializer = self.get_serializer(post)
+        return Response(serializer.data)
+
+    def destroy(self, request, bamboo_pk, post_number):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(post_number=post_number)
+        post = queryset.first()
+        if post is None:
+            raise Http404()
+        post.delete()
+        return Response(None, 204)

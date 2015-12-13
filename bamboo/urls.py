@@ -19,29 +19,30 @@ router.register(r'bamboo/(?P<bamboo_pk>.+)/manager', BambooAdminViewSet)
 urlpatterns = patterns(
     '',
     # Post CRUD URLs
-    url(r'^bamboo/(?P<bamboo_pk>.+)/post/', PostViewSet.as_view({
+    url(r'^bamboo/(?P<bamboo_pk>.+)/post/$', PostViewSet.as_view({
         'get': 'list',
         'post': 'create',
     })),
-    url(r'^post/(?P<pk>.+)/', PostViewSet.as_view({
-        'get': 'retrieve',
-        'delete': 'destroy',
-    })),
+    url(r'^bamboo/(?P<bamboo_pk>.+)/post/(?P<post_number>.+)/$',
+        PostViewSet.as_view({
+            'get': 'retrieve',
+            'delete': 'destroy',
+        })),
     # Report CRUD URLs
-    url(r'^bamboo/(?P<bamboo_pk>.+)/report/', ReportViewSet.as_view({
+    url(r'^bamboo/(?P<bamboo_pk>.+)/report/$', ReportViewSet.as_view({
         'post': 'create',
         'get': 'list',
     })),
-    url(r'^report/(?P<pk>.+)/', ReportViewSet.as_view({
+    url(r'^report/(?P<pk>.+)/$', ReportViewSet.as_view({
         'get': 'retrieve',
         'delete': 'destroy',
     })),
     # Comment CRUD URLs
-    url(r'^post/(?P<post_pk>.+)/comment/', CommentViewSet.as_view({
+    url(r'^post/(?P<post_pk>.+)/comment/$', CommentViewSet.as_view({
         'post': 'create',
         'get': 'list',
     })),
-    url(r'^comment/(?P<pk>.+)', CommentViewSet.as_view({
+    url(r'^comment/(?P<pk>.+)/$', CommentViewSet.as_view({
         'get': 'retrieve',
         'delete': 'destroy',
     })),
