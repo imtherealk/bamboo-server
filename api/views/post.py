@@ -29,18 +29,8 @@ class PostCreateForm(forms.Form):
         return report
 
 
-class PostViewSet(viewsets.GenericViewSet,
-                  viewsets.mixins.ListModelMixin):
-    queryset = Post.objects.all()
+class PostViewSet(viewsets.GenericViewSet):
     serializer_class = PostSerializer
-
-    def get_queryset(self):
-        queryset = self.queryset
-        if 'bamboo_pk' in self.kwargs:
-            bamboo_pk = self.kwargs['bamboo_pk']
-            bamboo = get_object_or_404(Bamboo.objects.filter(id=bamboo_pk))
-            queryset = queryset.filter(bamboo=bamboo)
-        return queryset
 
     @transaction.atomic
     def create(self, request, bamboo_pk):
@@ -64,7 +54,8 @@ class PostViewSet(viewsets.GenericViewSet,
         return Response(form.errors, 400)
 
     def retrieve(self, request, bamboo_pk, post_number):
-        queryset = self.get_queryset()
+        bamboo = get_object_or_404(Bamboo.objects.filter(id=bamboo_pk))
+        queryset = Post.objects.filter(bamboo=bamboo)
         queryset = queryset.filter(post_number=post_number)
         post = queryset.first()
         if post is None:
@@ -73,10 +64,18 @@ class PostViewSet(viewsets.GenericViewSet,
         return Response(serializer.data)
 
     def destroy(self, request, bamboo_pk, post_number):
-        queryset = self.get_queryset()
+        bamboo = get_object_or_404(Bamboo.objects.filter(id=bamboo_pk))
+        queryset = Post.objects.filter(bamboo=bamboo)
         queryset = queryset.filter(post_number=post_number)
         post = queryset.first()
         if post is None:
             raise Http404()
         post.delete()
         return Response(None, 204)
+
+    def list(self, request, bamboo_pk):
+        bamboo = get_object_or_404(Bamboo.objects.filter(id=bamboo_pk))
+        queryset = Post.objects.filter(bamboo=bamboo)
+        posts = queryset.all()
+        serializer = self.get_serializer(posts, many=True)
+        return Response(serializer.data)
