@@ -58,6 +58,7 @@ class PostViewSet(viewsets.GenericViewSet,
             bamboo.next_post_number += 1
             post.save()
             bamboo.save()
+            report.delete()
             serializer = self.get_serializer(post)
             return Response(serializer.data, 201)
         return Response(form.errors, 400)
