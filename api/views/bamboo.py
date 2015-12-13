@@ -4,7 +4,7 @@ from rest_framework.decorators import detail_route
 from api.models import Bamboo
 
 
-class BambooSerializer(serializers.HyperlinkedModelSerializer):
+class BambooSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bamboo
         fields = ('id', 'name', 'created_at', 'notice')

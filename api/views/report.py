@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from api.models import Report, Bamboo
 
 
-class ReportSerializer(serializers.HyperlinkedModelSerializer):
+class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = ('id', 'content', 'message', 'bamboo', 'created_at')

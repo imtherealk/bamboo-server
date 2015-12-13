@@ -5,9 +5,12 @@ from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 
 from api.models import Post, Bamboo, Report
+from api.views.user import UserSerializer
 
 
-class PostSerializer(serializers.HyperlinkedModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
+    writer = UserSerializer()
+
     class Meta:
         model = Post
         fields = ('id', 'post_number', 'content',

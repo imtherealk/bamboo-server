@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, BasePermission
 from api.models import User
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'url', 'username', 'email', 'is_staff')

@@ -5,12 +5,15 @@ from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 
 from api.models import Comment, Post
+from api.views.user import UserSerializer
 
 
-class CommentSerializer(serializers.HyperlinkedModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
+    writer = UserSerializer()
+
     class Meta:
         model = Comment
-        fields = ('id', 'content', 'created_at', 'post')
+        fields = ('id', 'content', 'created_at', 'post', 'writer')
 
 
 class CommentCreateForm(forms.Form):
