@@ -17,20 +17,8 @@ class ReportCreateForm(forms.Form):
     message = forms.Field(required=False)
 
 
-class ReportViewSet(viewsets.mixins.RetrieveModelMixin,
-                    viewsets.mixins.DestroyModelMixin,
-                    viewsets.mixins.ListModelMixin,
-                    viewsets.GenericViewSet):
-    queryset = Report.objects.all()
+class ReportViewSet(viewsets.GenericViewSet):
     serializer_class = ReportSerializer
-
-    def get_queryset(self):
-        queryset = self.queryset
-        if 'bamboo_pk' in self.kwargs:
-            bamboo_pk = self.kwargs['bamboo_pk']
-            bamboo = get_object_or_404(Bamboo.objects.filter(id=bamboo_pk))
-            queryset = queryset.filter(bamboo=bamboo)
-        return queryset
 
     def create(self, request, bamboo_pk):
         bamboo = get_object_or_404(Bamboo.objects.filter(id=bamboo_pk))
@@ -48,3 +36,19 @@ class ReportViewSet(viewsets.mixins.RetrieveModelMixin,
             serializer = self.get_serializer(report)
             return Response(serializer.data, 201)
         return Response(form.errors, 400)
+
+    def retrieve(self, request, pk):
+        report = get_object_or_404(Report, id=pk)
+        serializer = self.get_serializer(report)
+        return Response(serializer.data)
+
+    def list(self, request, bamboo_pk):
+        bamboo = get_object_or_404(Bamboo.objects.filter(id=bamboo_pk))
+        reports = Report.objects.filter(bamboo=bamboo).all()
+        serializer = self.get_serializer(reports, many=True)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk):
+        report = get_object_or_404(Report, id=pk)
+        report.delete()
+        return Response(None, 204)
